@@ -15,6 +15,7 @@ getData()
 
 // get
 function get(newData) {
+    tbody.innerHTML = ""
     newData.forEach(element => {
 
         let tr = document.createElement("tr")
@@ -31,8 +32,15 @@ function get(newData) {
         let forAvatar = document.createElement("img")
         forAvatar.src = element.avatar
 
+        // btnDelete
+        let btnDelete = document.createElement("button")
+        btnDelete.innerHTML = "Delete"
+        btnDelete.onclick = () => {
+            delUser(element.id)
+        }
+
         let card = document.createElement("div")
-        card.append(forName, forTitle, forAvatar)
+        card.append(forName, forTitle, forAvatar, btnDelete)
 
         tbody.appendChild(card)
     });

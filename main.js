@@ -2,7 +2,10 @@ let tbody = document.querySelector(".tbody")
 let AddName = document.querySelector(".AddName")
 let AddImg = document.querySelector(".AddImg")
 let btnAdd = document.querySelector(".btnAdd")
-
+let dialogEdit = document.querySelector(".dialogEdit")
+let EditName = document.querySelector(".EditName")
+let EditAvatar = document.querySelector(".EditAvatar")
+let bntSave = document.querySelector(".btnSave")
 
 let url = "https://65536cfd5449cfda0f2eac4e.mockapi.io/To_DO"
 
@@ -43,7 +46,20 @@ function get(newData) {
             delUser(elem.id)
         }
 
-        tr.append(forId, forName, forImg, btnDel)
+        //edit
+        let btnEdit = document.createElement("button")
+        btnEdit.innerHTML = "Edit"
+        btnEdit.onclick = () => {
+            editUser(elem.id)
+        }
+
+        // isComplete
+        let check = document.createElement("input")
+        check.type = "checkbox"
+        check.checked = elem.isComplete
+
+
+        tr.append(forId, forName, forImg, btnDel, btnEdit, check)
 
         tbody.append(tr)
     });
@@ -54,7 +70,7 @@ function get(newData) {
 // add ->post__________________________________________
 async function post(newUser) {
     try {
-        let response = await fetch(url,{
+        let response = await fetch(url, {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -91,3 +107,52 @@ async function delUser(id) {
     }
 }
 
+// editUser
+async function putUser(id, edit) {
+    try {
+        let response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(edit),
+
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+
+
+
+// // Создаём новый объект и переносим данные в поля
+function editPost(mainData) {
+    editModal.style.display = "block";
+    let newData = {
+        image: mainData.image,
+        name: mainData.name,
+        email: mainData.email,
+        complete: mainData.complete,
+        city: mainData.city,
+        phone: mainData.phone,
+    };
+    console.log(newData);
+    formEdit["image"].value = newData.image;
+    formEdit["name"].value = newData.name;
+    formEdit["email"].value = newData.email;
+    formEdit["status"].value = newData.complete ? "true" : "false";
+    formEdit["city"].value = newData.city;
+    formEdit["phone"].value = newData.phone;
+    formEdit.addEventListener("submit", (event) => {
+        event.preventDefault();
+        newData.image = event.target["image"].value;
+        newData.name = event.target["name"].value;
+        newData.email = event.target["email"].value;
+        newData.complete = event.target["status"].value;
+        newData.city = event.target["city"].value;
+        newData.phone = event.target["phone"].value;
+        putEdit(mainData.id, newData);
+    });
+}

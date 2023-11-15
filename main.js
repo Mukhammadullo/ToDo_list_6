@@ -1,49 +1,60 @@
 let tbody = document.querySelector(".tbody")
-let url = "https://655367345449cfda0f2ea0f3.mockapi.io/todo"
+
+let url = "https://65536cfd5449cfda0f2eac4e.mockapi.io/To_DO"
 
 async function getData() {
     try {
-        let reponse = await fetch(url)
-        let data = await reponse.json()
+        let response = await fetch(url);
+        let data = await response.json();
         get(data)
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
 }
-getData()
+getData();
 
-
-// get
+//get
 function get(newData) {
     tbody.innerHTML = ""
-    newData.forEach(element => {
+    newData.forEach(elem => {
 
         let tr = document.createElement("tr")
 
-        // title
-        let forTitle = document.createElement("h2")
-        forTitle.innerHTML = element.title
+        let forId = document.createElement("td")
+        forId.innerHTML = elem.id
 
-        // forName
-        let forName = document.createElement("h3")
-        forName.innerHTML = element.name
+        let forName = document.createElement("td")
+        forName.innerHTML = elem.name
 
-        // forAvatar
-        let forAvatar = document.createElement("img")
-        forAvatar.src = element.avatar
+        let forImg = document.createElement("td")
+        let img = document.createElement("img")
+        img.src = elem.avatar
+        forImg.append(img)
 
-        // btnDelete
-        let btnDelete = document.createElement("button")
-        btnDelete.innerHTML = "Delete"
-        btnDelete.onclick = () => {
-            delUser(element.id)
+
+        // delete
+        let btnDel = document.createElement("button")
+        btnDel.innerHTML = "Delete"
+        btnDel.onclick = () => {
+            delUser(elem.id)
         }
 
-        let card = document.createElement("div")
-        card.append(forName, forTitle, forAvatar, btnDelete)
+        tr.append(forId, forName, forImg, btnDel)
 
-        tbody.appendChild(card)
+        tbody.append(tr)
     });
 }
 
 
+
+// delete
+async function delUser(id) {
+    try {
+        const response = await fetch(`${url}/${id}`, {
+            method: "DELETE"
+        })
+        getData()
+    } catch (error) {
+        console.error(error)
+    }
+}

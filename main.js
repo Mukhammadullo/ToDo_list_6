@@ -45,6 +45,7 @@ function get(newData) {
         btnDel.classList.add("btnDel")
         btnDel.onclick = () => {
             delUser(elem.id)
+            
         }
 
         //edit
@@ -129,32 +130,3 @@ async function putUser(id, edit) {
 
 
 
-// // Создаём новый объект и переносим данные в поля
-function editPost(mainData) {
-    editModal.style.display = "block";
-    let newData = {
-        image: mainData.image,
-        name: mainData.name,
-        email: mainData.email,
-        complete: mainData.complete,
-        city: mainData.city,
-        phone: mainData.phone,
-    };
-    console.log(newData);
-    formEdit["image"].value = newData.image;
-    formEdit["name"].value = newData.name;
-    formEdit["email"].value = newData.email;
-    formEdit["status"].value = newData.complete ? "true" : "false";
-    formEdit["city"].value = newData.city;
-    formEdit["phone"].value = newData.phone;
-    formEdit.addEventListener("submit", (event) => {
-        event.preventDefault();
-        newData.image = event.target["image"].value;
-        newData.name = event.target["name"].value;
-        newData.email = event.target["email"].value;
-        newData.complete = event.target["status"].value;
-        newData.city = event.target["city"].value;
-        newData.phone = event.target["phone"].value;
-        putEdit(mainData.id, newData);
-    });
-}

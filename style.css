@@ -1,0 +1,64 @@
+.main_card {
+    width: 80%;
+    height: auto;
+
+    margin: auto;
+    box-shadow: 0px 0px 12px black;
+}
+
+/* table */
+table {
+    border-collapse: collapse;
+    width: 70%;
+    height: auto;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+tr,
+td,
+th {
+    border: 1px solid black;
+}
+
+/* AddName */
+.AddName {
+    margin: 20px;
+    width: 250px;
+    height: 35px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* AddImg */
+.AddImg {
+    margin: 20px;
+    width: 250px;
+    height: 35px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* btnAdd */
+.btnAdd {
+    width: 150px;
+    height: 44px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+/* btnDel */
+.btnDel {
+    width: 90px;
+    height: 30px;
+    margin: 5px;
+    margin-top: 60px;
+}
+
+/* btnEdit */
+.btnEdit {
+    width: 90px;
+    height: 30px;
+    margin-top: 60px;
+}

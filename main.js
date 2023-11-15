@@ -14,6 +14,7 @@ async function getData() {
         let response = await fetch(url);
         let data = await response.json();
         get(data)
+        console.log(data);
     } catch (error) {
         console.error(error);
     }
@@ -45,7 +46,7 @@ function get(newData) {
         btnDel.classList.add("btnDel")
         btnDel.onclick = () => {
             delUser(elem.id)
-            
+
         }
 
         //edit
@@ -53,14 +54,20 @@ function get(newData) {
         btnEdit.innerHTML = "Edit"
         btnEdit.classList.add("btnEdit")
         btnEdit.onclick = () => {
-            editUser(elem.id)
+            editUser(elem)
         }
 
         // isComplete
         let check = document.createElement("input")
         check.type = "checkbox"
         check.checked = elem.isComplete
-
+        check.onclick = () => {
+            elem.isComplete = !elem.isComplete
+            isCompleteUser(elem.id,elem)
+        }
+        if (elem.isComplete == true) {
+            forName.style.textDecoration = "line-through"
+        }
 
         tr.append(forId, forName, forImg, btnDel, btnEdit, check)
 
@@ -110,22 +117,58 @@ async function delUser(id) {
     }
 }
 
-// editUser
-async function putUser(id, edit) {
+
+
+///edit
+async function asynceditUser(id,newEditUser) {
     try {
-        let response = await fetch(url, {
-            method: "PUT",
+        let response = await fetch(`${url}/${id}` ,{
+            method : "PUT",
             headers: {
+                 Accept: "application/json",
+                 "Content-Type": "application/json",
+            },
+            body : JSON.stringify(newEditUser)
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+function editUser(elem) {
+    dialogEdit.showModal()
+    EditName.value = elem.name
+    EditAvatar.value = elem.avatar
+    bntSave.onclick = () => {
+        let newEditUser = {
+            name: EditName.value,
+            avatar: EditAvatar.value
+        }
+        asynceditUser(elem.id,newEditUser)
+        dialogEdit.close()
+    }
+
+}
+
+
+async function isCompleteUser(id,user) {
+    try {
+        let response = await fetch(`${url}/${id}`, {
+            method : "PUT",
+             headers : {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(edit),
-
+            body : JSON.stringify(user)
         })
     } catch (error) {
-        console.error(error)
+        console.log(error);
     }
 }
+
+
+
 
 
 

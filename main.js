@@ -1,4 +1,8 @@
 let tbody = document.querySelector(".tbody")
+let AddName = document.querySelector(".AddName")
+let AddImg = document.querySelector(".AddImg")
+let btnAdd = document.querySelector(".btnAdd")
+
 
 let url = "https://65536cfd5449cfda0f2eac4e.mockapi.io/To_DO"
 
@@ -13,7 +17,7 @@ async function getData() {
 }
 getData();
 
-//get
+//get_____________________________________________________
 function get(newData) {
     tbody.innerHTML = ""
     newData.forEach(elem => {
@@ -47,7 +51,35 @@ function get(newData) {
 
 
 
-// delete
+// add ->post__________________________________________
+async function post(newUser) {
+    try {
+        let response = await fetch(url,{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+btnAdd.onclick = () => {
+    let newObj = {
+        id: Date.now(),
+        name: AddName.value,
+        avatar: AddImg.value,
+        isComplete: false
+    }
+    post(newObj)
+}
+
+
+// delete____________________________________________
 async function delUser(id) {
     try {
         const response = await fetch(`${url}/${id}`, {
@@ -58,3 +90,4 @@ async function delUser(id) {
         console.error(error)
     }
 }
+
